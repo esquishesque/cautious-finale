@@ -1,4 +1,5 @@
 ### THIS IS FOR EX5 ###
+### NB - everything that says s is z and everything that says z is s! ><
 
 from decimal import Decimal, ROUND_HALF_UP
 import csv
@@ -23,7 +24,7 @@ numPhases = blocks*numSubBlocks
 numListSets = int(numLists/numSubLists)
 random.seed(0.7623330311662739)
 slash = '/'
-folder = ['','Users','emcee','Documents','school','dissertation','ex5','stimuli_lists','temp_stimuli_lists','']
+folder = ['','Users','emcee','Documents','school','dissertation','ex5','cautious-finale','python','temp_stimuli_lists','']
 folder = slash.join(map(str,folder))
 
 
@@ -92,13 +93,21 @@ def integrateLists(s_list,z_list):
     output = []
     while(len(s_list)>0 and len(z_list)>0):
         if(insertS.pop()):
-            output.append("s"+s_list.pop())
+            output.append("z"+s_list.pop())
         else:
-            output.append("z"+z_list.pop())
+            output.append("s"+z_list.pop())
     while(len(s_list)>0):
-        output.append("s"+s_list.pop())
+        output.append("z"+s_list.pop())
     while(len(z_list)>0):
-        output.append("z"+z_list.pop())
+        output.append("s"+z_list.pop())
+    return output
+
+def reverseList(input_list):
+    output = []
+    for i in range(len(input_list)):
+        sz = input_list[i][0]
+        numbers = input_list[i][1:].split("-")
+        output.append("{}{}-{}".format(sz,numbers[1],numbers[0]))
     return output
 
 #establish d = distribution
@@ -253,14 +262,14 @@ for i in range(numListSets):
     # integrate s and z lists
         szA_widenarrow = integrateLists(sA_widenarrow[:],zA_widenarrow[:])
         zsB_widenarrow = integrateLists(sB_widenarrow[:],zB_widenarrow[:])
-        szA_narrowwide = [s[::-1] for s in szA_widenarrow]
-        zsB_narrowwide = [z[::-1] for z in zsB_widenarrow]
+        szA_narrowwide = reverseList(szA_widenarrow)
+        zsB_narrowwide = reverseList(zsB_widenarrow)
 
     # put most frequent s at the beginning and most frequent z at the end - this is 12 on first and 34 on second
-        szA_widenarrow.insert(0,"s"+s)
-        zsB_widenarrow.append("z"+z)
-        szA_narrowwide.insert(0,"s"+s)
-        zsB_narrowwide.append("z"+z)
+        szA_widenarrow.insert(0,"z"+s)
+        zsB_widenarrow.append("s"+z)
+        szA_narrowwide.insert(0,"z"+s)
+        zsB_narrowwide.append("s"+z)
 
     # add them to lists of lists
         szAwn_phases.append(szA_widenarrow)
@@ -287,8 +296,8 @@ for i in range(numListSets):
     shuffle(zB_canoncanon)
     szA_canoncanon = integrateLists(sA_canoncanon[:],zA_canoncanon[:])
     zsB_canoncanon = integrateLists(sB_canoncanon[:],zB_canoncanon[:])
-    szA_canoncanon.insert(0,"s"+s)
-    zsB_canoncanon.append("z"+z)
+    szA_canoncanon.insert(0,"z"+s)
+    zsB_canoncanon.append("s"+z)
     szAcc_phases.append(szA_canoncanon)
     zsBcc_phases.append(zsB_canoncanon)
 

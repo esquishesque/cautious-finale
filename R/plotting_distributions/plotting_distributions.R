@@ -102,19 +102,25 @@
     plot_widenarrow <- ggplot(dp_widenarrow, aes(fric, vow)) +
       geom_tile(aes(fill = value)) + 
       geom_text(aes(label = round(value, 1))) +
-      scale_fill_gradient(low = "white", high = "darkred") +
-      ggtitle("wide/narrow")
+      scale_fill_gradient(low = "white", high = "darkred", guide=FALSE) +
+      ggtitle("wide/narrow") +
+      labs(x="fricative stimulus",y="vowel stimulus") +
+      theme(plot.title = element_text(hjust = 0.5))
     plot_narrowwide <- ggplot(dp_narrowwide, aes(fric, vow)) +
       geom_tile(aes(fill = value)) + 
       geom_text(aes(label = round(value, 1))) +
-      scale_fill_gradient(low = "white", high = "darkred") +
-      ggtitle("narrow/wide")
+      scale_fill_gradient(low = "white", high = "darkred", guide=FALSE) +
+      ggtitle("narrow/wide") +
+      labs(x="fricative stimulus",y="vowel stimulus") +
+      theme(plot.title = element_text(hjust = 0.5))
     plot_canoncanon <- ggplot(dp_canoncanon, aes(fric, vow)) +
       geom_tile(aes(fill = value)) + 
       geom_text(aes(label = round(value, 1))) +
-      scale_fill_gradient(low = "white", high = "darkred") +
-      ggtitle("canon/canon")
-    multi_density2D<-arrangeGrob(plot_widenarrow,plot_narrowwide,plot_canoncanon)
+      scale_fill_gradient(low = "white", high = "darkred", guide=FALSE) +
+      ggtitle("even") +
+      labs(x="fricative stimulus",y="vowel stimulus") +
+      theme(plot.title = element_text(hjust = 0.5))
+    multi_density2D<-arrangeGrob(plot_widenarrow,plot_canoncanon,plot_narrowwide,ncol=3)
     grid.draw(multi_density2D)
   }
   

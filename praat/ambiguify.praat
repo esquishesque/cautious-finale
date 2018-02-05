@@ -7,15 +7,15 @@
 
 form arguments
 	comment directory:
-	text directory /Users/emcee/Documents/school/dissertation/ex5/sound_files/sz_script/
+	text directory /Users/emcee/Documents/school/dissertation/ex5/cautious-finale/praat/sz_script/
 	real fricIntensity 48
 	real vowIntensity 55
 	real minvowdif 0.015
 
 #######????????????????????########
-	real levelStart 10
-	real levelEnd 90
-	real levelInc 20
+	real levelStart 5
+	real levelEnd 95
+	real levelInc 11
 #	real findur 0.04212
 #	real ipercent 0.4658
 #######????????????????????########
