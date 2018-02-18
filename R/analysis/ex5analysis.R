@@ -36,6 +36,16 @@ as.factor(all$stimulus)->all$stimulus
     require(ggplot2)
     require(gridExtra)
     require(grid)
+    library(dplyr)
   }
+  
+  allAgg<-all %>% count(stimulus,fric,vow,pnum)
+  #allAgg<-aggregate(all$stimtype,list(all$fric,all$vow,all$pnum),count)
+  
+  plot_widenarrow <- ggplot(pp_widenarrow, aes(fric, vow)) +
+    geom_tile(aes(fill = value)) + 
+    geom_text(aes(label = round(value, 1))) +
+    scale_fill_gradient(low = "white", high = "darkred") +
+    ggtitle("wide/narrow")
   
 }
