@@ -3,8 +3,11 @@
 
 
 #####load and format files
-
 filepath<-'/Users/emcee/Documents/school/dissertation/ex5/cautious-finale/R/analysis/stimuli_lists'
+block1_start = 1
+block2_start = block1_start + 116*2+8*2
+block3_start = block2_start + 113*2+8*2
+
 
 ###loop through folder and load them all in
 filenames <- list.files(filepath, pattern="*.csv", full.names=TRUE)
@@ -29,6 +32,12 @@ all$fric<-as.factor(temp[c(TRUE,FALSE)])
 all$vow<-as.factor(temp[!c(TRUE,FALSE)])
 as.factor(all$stimulus)->all$stimulus
 
+###separate block
+all$block <- 3
+all[all$trial<block3_start,]$block <- 2
+all[all$trial<block2_start,]$block <- 1
+all$block<-as.factor(all$block)
+
 #####visualise
 {
   ###setup
@@ -39,13 +48,32 @@ as.factor(all$stimulus)->all$stimulus
     library(dplyr)
   }
   
-  allAgg<-all %>% count(stimulus,fric,vow,pnum)
+  allAgg<-all %>% count(stimulus,fric,vow,pnum,block)
   #allAgg<-aggregate(all$stimtype,list(all$fric,all$vow,all$pnum),count)
+  summary(allAgg)
+  allAgg$fric<-as.numeric(as.character(allAgg$fric))
+  allAgg$vow<-as.numeric(as.character(allAgg$vow))
+  allAgg$block<-as.factor(allAgg$block)
   
-  plot_widenarrow <- ggplot(pp_widenarrow, aes(fric, vow)) +
-    geom_tile(aes(fill = value)) + 
-    geom_text(aes(label = round(value, 1))) +
+  (plot_together <- ggplot(allAgg, aes(fric, vow)) +
+    geom_tile(aes(fill = n)) + 
     scale_fill_gradient(low = "white", high = "darkred") +
-    ggtitle("wide/narrow")
+    ggtitle("all together"))
+  
+  (plot_block1 <- ggplot(allAgg[allAgg$block==1,], aes(fric, vow)) +
+      geom_tile(aes(fill = n)) + 
+      scale_fill_gradient(low = "white", high = "darkred") +
+      ggtitle("block1"))
+  
+  (plot_block2 <- ggplot(allAgg[allAgg$block==2,], aes(fric, vow)) +
+      geom_tile(aes(fill = n)) + 
+      scale_fill_gradient(low = "white", high = "darkred") +
+      ggtitle("block2"))
+  
+  (plot_block3 <- ggplot(allAgg[allAgg$block==3,], aes(fric, vow)) +
+      geom_tile(aes(fill = n)) + 
+      scale_fill_gradient(low = "white", high = "darkred") +
+      ggtitle("block3"))
+  
   
 }

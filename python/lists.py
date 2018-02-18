@@ -383,7 +383,7 @@ for i in range(numListSets):
 
 
 
-#[print(name) for name in finalNames]
+[print(name) for name in finalNames]
 #[print(l[:5]) for l in finalLists]
 
 
