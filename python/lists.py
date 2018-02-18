@@ -125,9 +125,9 @@ h_canon = t(v_canon)
 
 #establish m = 2d matrix
 m_widenarrow = createMatrixFrom2D(v_wide,h_narrow,divisor)
-#print(getTotalTrials(m_widenarrow,blocks))
+print(getTotalTrials(m_widenarrow,blocks))
 m_canoncanon = createMatrixFrom2D(v_canon,h_canon,divisor)
-#print(getTotalTrials(m_canoncanon,blocks))
+print(getTotalTrials(m_canoncanon,blocks))
 
 #establish s = /s/ matrix ; z = /z/ matrix
 s_widenarrow = [row[:] for row in m_widenarrow]
@@ -215,41 +215,6 @@ spg_canoncanon = getPointGroupsFromIndices(spgi_canoncanon,spl_canoncanon)
 zpg_canoncanon = getPointGroupsFromIndices(zpgi_canoncanon,zpl_canoncanon)
 
 
-# ###debug
-# print("point1-widenarrow")
-# #print(spl_widenarrow)
-# #print(spgi_widenarrow)
-# print(len(spl_widenarrow))
-# print(len(spgi_widenarrow))
-# print(sum(map(len,spl_widenarrow)))
-# #print(sum(map(len,zpl_widenarrow)))
-# print(sum(map(len,spgi_widenarrow)))
-# #print(sum(map(len,zpgi_widenarrow)))
-# print(sum(map(len,spg_widenarrow)))
-# #print(sum(map(len,zpg_widenarrow)))
-#
-# print("point1-canoncanon")
-# #printMatrix(spg_canoncanon)
-#
-# debug=[]
-# for i in range(len(spl_canoncanon)):
-#     debug.append([])
-#     for j in range(len(spl_canoncanon[i])):
-#         debug[i].append(len(spl_canoncanon[i][j]))
-# #printMatrix(debug)
-# #debug = map(len,spl_canoncanon)
-# #print(spl_canoncanon)
-# #print(spgi_canoncanon)
-# print(len(spl_canoncanon))
-# print(len(spgi_canoncanon))
-# print(sum(map(len,spl_canoncanon)))
-# #print(sum(map(len,zpl_canoncanon)))
-# print(sum(map(len,spgi_canoncanon)))
-# #print(sum(map(len,zpgi_canoncanon)))
-# print(sum(map(len,spg_canoncanon)))
-# #print(sum(map(len,zpg_canoncanon)))
-
-
 #establish point groups for test list
 test_pgi = ["t{}-{}".format(i*9+5,j*9+5) for i in range(len_matrix//2-3,len_matrix//2-1) for j in range(len_matrix//2+2,len_matrix//2+4)] + \
            ["t{}-{}".format(i*9+5,j*9+5) for i in range(len_matrix//2+2,len_matrix//2+4) for j in range(len_matrix//2-3,len_matrix//2-1)]
@@ -259,6 +224,12 @@ test_pgi = ["t{}-{}".format(i*9+5,j*9+5) for i in range(len_matrix//2-3,len_matr
 # loop twice
 finalLists = []
 finalNames = []
+
+# pop one instance of the most frequent s/z off to use later
+s = spg_widenarrow[0].pop()
+z = zpg_widenarrow[0].pop()
+s = spg_canoncanon[0].pop()
+z = zpg_canoncanon[0].pop()
 
 for i in range(numListSets):
 
@@ -270,10 +241,6 @@ for i in range(numListSets):
     szAcc_phases = []
     zsBcc_phases = []
 
-    # pop one instance of the most frequent s/z off to use later
-    s = spg_widenarrow[0].pop()
-    z = zpg_widenarrow[0].pop()
-
     for j in range(numSubBlocks):
 
     # for each of s and z:
@@ -281,16 +248,6 @@ for i in range(numListSets):
         [shuffle(list) for list in spg_widenarrow]
         [shuffle(list) for list in zpg_widenarrow]
 
-# ###debug
-#         print("point1")
-#         print(i)
-#         print(j)
-#         print(s)
-#         print(z)
-#         print(len(spg_widenarrow))
-#         print(sum(map(len,spg_widenarrow)))
-#         print(len(zpg_widenarrow))
-#         print(sum(map(len,zpg_widenarrow)))
 
     # cut each of those randomisations in half ###old version was wrong, had to debug, leaving here for posterity:
         sA_widenarrow = [list[:(len(list)//2)] for list in spg_widenarrow]
@@ -301,38 +258,6 @@ for i in range(numListSets):
     #     sB_widenarrow = [list[round(len(list)/2):] for list in spg_widenarrow]
         zA_widenarrow = [list[:round(len(list)/2)] for list in zpg_widenarrow]
         zB_widenarrow = [list[round(len(list)/2):] for list in zpg_widenarrow]
-
-
-
-###debug
-        #debug1 = [list[:round(len(list)/2)] for list in spg_widenarrow]
-        #debug2 = [list[round(len(list)/2):] for list in spg_widenarrow]
-
-###debug
-       #  print(i)
-       #  print(j)
-       #  #print(sA_widenarrow)
-       #  print(len(sA_widenarrow))
-       #  print(sum(map(len,sA_widenarrow)))
-       # # print(sB_widenarrow)
-       #  print(len(sB_widenarrow))
-       #  print(sum(map(len,sB_widenarrow)))
-
-        # #print(debug1)
-        # print(len(debug1))
-        # print(sum(map(len,debug1)))
-        # #print(debug2)
-        # print(len(debug2))
-        # print(sum(map(len,debug2)))
-
-        # print(zA_widenarrow)
-        # print(len(zA_widenarrow))
-        # print(sum(map(len,zA_widenarrow)))
-        # print(zB_widenarrow)
-        # print(len(zB_widenarrow))
-        # print(sum(map(len,zB_widenarrow)))
-
-
 
 
     # flatten lists and randomise
@@ -366,16 +291,7 @@ for i in range(numListSets):
     #create canon lists
     [shuffle(list) for list in spg_canoncanon]
     [shuffle(list) for list in zpg_canoncanon]
-    s = spg_canoncanon[0].pop()
-    z = zpg_canoncanon[0].pop()
-# ###debug
-#     print("point2")
-#     print(i)
-#     print(j)
-#     print(s)
-#     print(z)
-#     print(sum(map(len,spg_canoncanon)))
-#     print(sum(map(len,zpg_canoncanon)))
+
 
     sA_canoncanon = [list[:(len(list)//2)] for list in spg_canoncanon]
     sB_canoncanon = [list[(len(list)//2):] for list in spg_canoncanon]
@@ -467,8 +383,8 @@ for i in range(numListSets):
 
 
 
-[print(name) for name in finalNames]
-[print(l[:5]) for l in finalLists]
+#[print(name) for name in finalNames]
+#[print(l[:5]) for l in finalLists]
 
 
 #####print lists
