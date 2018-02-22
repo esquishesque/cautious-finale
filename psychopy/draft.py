@@ -339,7 +339,7 @@ for thisTrial_2 in trials_2:
         # update/draw components on each frame
         
         # *text_2* updates
-        if asdfBreakCounter <=2:
+        if asdfBreakCounter <=5 and asdfBreakCounter%2==0:
             if t >= 0.0 and text_2.status == NOT_STARTED:
                 # keep track of start time/frame for later
                 text_2.tStart = t  # underestimates by a little under one frame
@@ -355,14 +355,14 @@ for thisTrial_2 in trials_2:
             # keyboard checking is just starting
             event.clearEvents()
         if key_resp_4.status == STARTED:
-            if asdfBreakCounter <= 2:
+            if asdfBreakCounter <= 5 and asdfBreakCounter%2==0:
                 theseKeys = event.getKeys(keyList=['num_4', 'num_6'])
             else:
                 theseKeys=['num_4','num_6']
             for key in theseKeys:
-                if key == 'num_4' or asdfBreakCounter > 2:
+                if key == 'num_4' or asdfBreakCounter > 5:
                     switchasdf4break = True
-                if key == 'num_6' or asdfBreakCounter > 2:
+                if key == 'num_6' or asdfBreakCounter > 5:
                     switchasdf6break = True
             if len(theseKeys) > 0:  # at least one key was pressed
                 # a response ends the routine

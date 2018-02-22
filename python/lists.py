@@ -409,11 +409,11 @@ for i in range(len(finalLists)): #for each list, create output folder
         else:
             first = finalLists[i][j-1][0][0]
         if first == "s":
-            hands = ",SA,ZA"
+            hands = ".wav,SA,ZA"
         else:
-            hands = ",ZA,SA"
+            hands = ".wav,ZA,SA"
         for k in range(len(finalLists[i][j])): #for lines from beginning of phase to end
-           jwriter.writerow([finalLists[i][j][k]+hands]) #write the line from the list
+           jwriter.writerow(["stimuli/"+finalLists[i][j][k]+hands]) #write the line from the list
         jfile.close() #close the file
     for row in metaStim: #for each row the directory file
         iwriter.writerow([row]) #print the row
